@@ -6,14 +6,14 @@
 #    By: tmercier <tmercier@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/12/02 17:13:26 by tmercier      #+#    #+#                  #
-#    Updated: 2023/05/01 14:11:35 by tmercier      ########   odam.nl          #
+#    Updated: 2023/05/01 14:18:07 by tmercier      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 
 
-LIB			=		../42_libs
-INC			=		-I../42_libs/inc -Iinc -I../42_libs/graphic/MLX42/include/MLX42
+LIB			=		_libs
+INC			=		-I_libs/inc -Iinc -I_libs/graphic/MLX42/include/MLX42
 SRCS		=		_fdf_main.c colors_1.c colors_2.c input.c lines.c \
 					key_hooks.c loop_hooks.c rotation.c usage.c utils.c
 OBJS		=		$(addprefix out/, $(SRCS:.c=.o))
@@ -33,7 +33,7 @@ $(shell mkdir -p out)
 
 all: $(BIN)
 
-$(BIN): $(OBJS) ../42_libs/lib42mlx.a
+$(BIN): $(OBJS) _libs/lib42mlx.a
 	@$(CC) $(CFLAGS) $(EXTRAS) -o $@ $^ $(LFLAGS)
 	@make signature
 
@@ -41,21 +41,21 @@ out/%.o: _src/%.c
 	@printf "$(GREEN)Compiling: $(RESET)$(notdir $<)\n"
 	$(CC) $(CFLAGS)  $(INC) -c -o $@ $<
 
-../42_libs/lib42mlx.a:
-	MLX=1 $(MAKE) -C ../42_libs
+_libs/lib42mlx.a:
+	MLX=1 $(MAKE) -C _libs
 
 clean:
-	$(MAKE) -C ../42_libs clean
+	$(MAKE) -C _libs clean
 	rm -rf $(OBJS)
 
 fclean: clean
-	$(MAKE) -C ../42_libs fclean
+	$(MAKE) -C _libs fclean
 	rm -rf $(BIN)
 
 re: fclean all
 
 cleanlib:
-	@make fclean -C ../42_libs
+	@make fclean -C _libs
 
 signature:
 			@printf \

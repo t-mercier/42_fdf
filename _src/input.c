@@ -18,7 +18,7 @@ static void	resize_map(t_fdf *fdf)
 
 	surface = fdf->w * fdf->h;
 	if (surface > 10000)
-		fdf->t_s = 5.;
+		fdf->t_s = 3.;
 	else if (surface > 5000)
 		fdf->t_s = 10.;
 	else if (surface < 500)
@@ -68,5 +68,5 @@ t_vector	*read_file(int fd, t_fdf *fdf)
 		vector_append(fdf->grid, &fdf->row);
 		get_size(fdf);
 	}
-	return (fdf->grid);
+	return (free(line), fdf->grid);
 }

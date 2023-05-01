@@ -65,7 +65,7 @@ static void	_project_0(t_fdf *fdf, t_vertex *_0, t_index i)
 	t_vertex	t;
 	t_vertex	d;
 
-	i.z = ((int *)fdf->row->item)[i.x];
+	i.z = ((int *)fdf->row->data)[i.x];
 	d.x = (double)i.x * fdf->t_s;
 	d.y = (double)i.y * fdf->t_s;
 	d.z = (double)i.z * (fdf->t_s / 5 * fdf->depth);
@@ -78,16 +78,16 @@ static void	_project_1(t_fdf *fdf, t_vertex _0, t_index i)
 {
 	t_vector	*row;
 
-	row = ((t_vector **)fdf->grid->item)[i.y];
+	row = ((t_vector **)fdf->grid->data)[i.y];
 	if (i.x < (int)row->len - 1 && i.x >= 0)
 	{
-		i.z = ((int *)row->item)[i.x + 1];
+		i.z = ((int *)row->data)[i.x + 1];
 		_projection_right(fdf, _0, i);
 	}
 	if (i.y < (int)fdf->grid->len - 1 && i.y >= 0)
 	{
-		row = ((t_vector **)fdf->grid->item)[i.y + 1];
-		i.z = ((int *)row->item)[i.x];
+		row = ((t_vector **)fdf->grid->data)[i.y + 1];
+		i.z = ((int *)row->data)[i.x];
 		_projection_down(fdf, _0, i);
 	}
 }
@@ -104,7 +104,7 @@ void	project(t_fdf *fdf)
 	i.y = 0;
 	while (i.y < (int)fdf->grid->len)
 	{
-		fdf->row = ((t_vector **)fdf->grid->item)[i.y];
+		fdf->row = ((t_vector **)fdf->grid->data)[i.y];
 		i.x = 0;
 		while (i.x < (int)fdf->row->len)
 		{

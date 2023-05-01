@@ -24,7 +24,7 @@ void	calibrate(t_fdf *fdf)
 	fdf->r.pitch = 0.;
 	fdf->r.roll = 0.;
 	fdf->depth = 1.;
-	fdf->palette = 1;
+	fdf->palette = 3;
 	fdf->offset.x = (double)(fdf->win.w - fdf->map.w);
 	fdf->offset.y = (double)(fdf->win.h - fdf->map.h) / 5;
 	fdf->angle = 30.264;
@@ -50,7 +50,7 @@ int	check_error(int ac, char *name)
 		exit_message("\n_USAGE_ERROR_ >>> "
 			"./fdf *.fdf\n\n", 1);
 	else if (ft_strnstr(name, ".fdf", ft_strlen(name)) == 0)
-		exit_message("\n_FILE_ERROR_ >>> "
+		exit_message("\n_ARGS_ERROR_ >>> "
 			"./fdf maps/*.fdf\nAccepted files : *.fdf\n\n", 1);
 	return (0);
 }

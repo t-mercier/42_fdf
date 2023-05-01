@@ -6,33 +6,22 @@
 #    By: tmercier <tmercier@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/12/02 17:13:26 by tmercier      #+#    #+#                  #
-#    Updated: 2022/12/01 22:24:38 by tmercier      ########   odam.nl          #
+#    Updated: 2023/05/01 14:01:57 by tmercier      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-# ----------------- EXECUTABLE #
-NAME		=		fdf
 
-# ----------------- FILES #
-SRC_FILES	=		_fdf_main.c colors_1.c colors_2.c input.c lines.c \
+
+LIB			=		../libs
+INC			=		-I../libs/inc -Iinc -I../libs/MLX42/include/MLX42
+SRCS		=		_fdf_main.c colors_1.c colors_2.c input.c lines.c \
 					key_hooks.c loop_hooks.c rotation.c usage.c utils.c
-HDR_FILES	=		inc/fdf.h
-
-# ----------------- DIRECTORIES #
-OBJ_DIR		=		obj
-SRC_DIR		=		_src
-LIB_DIR		=		_lib42
-INC_DIR		=		-I$(LIB_DIR)/inc -Iinc
-
-# ----------------- CC #
-CC			=		gcc
-
-# ----------------- LIBS #
-LIBS		=		$(LIB_DIR)/bin/lib42mlx.a
+OBJS		=		$(addprefix out/, $(SRCS:.c=.o))
+BIN			=		fdf
+CC			=		cc
 EXTRAS		=		-lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
-
-# ----------------- COMPILER FLAGS #
-CFLAGS 		+= 		-Ofast $(INC_DIR) -I$(LIB_DIR)/MLX42/include -Wall -Wextra
+LFLAGS		=		-lm -lpthread -Wl
+CFLAGS 		+= 		-Ofast $(INC) -Wall -Wextra
 ifdef DEBUG
 CFLAGS		+=		-g3 -fsanitize=address
 endif
@@ -40,58 +29,45 @@ ifndef DEV
 CFLAGS		+=		-Werror
 endif
 
-# ----------------- LINKER FLAGS #
-L_FLAGS		=		-lm -lpthread -Wl -L$(LIB_DIR) -l42mlx
+$(shell mkdir -p out)
 
-# ----------------- OBJECTS #
-OBJS		=		$(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
+all: $(BIN)
 
-# ----------------- TARGETS #
-all: 				libs $(NAME)
-
-libs:
-	@git submodule update --init --recursive $(LIB_DIR)/MLX42
-	@printf "$(LIGHT_CYAN)... checking update for git submodule MLX42$(RESET)\n\n"
-	@make -C $(LIB_DIR)
-
-# Compile object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HDR_FILES)
-	@mkdir -p $(@D)
-	@printf "$(GREEN)Compiling: $(RESET)$(notdir $<)\n"
-	@$(CC) $(CFLAGS) -o $@ -c $<
-
-$(NAME):  $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(L_FLAGS) $(EXTRAS) -o $(NAME)
-	@printf "\n$(LIGHT_CYAN)-> Executable $(NAME) created.$(RESET) ✔️\n\n"
+$(BIN): $(OBJS) ../libs/lib42mlx.a
+	@$(CC) $(CFLAGS) $(EXTRAS) -o $@ $^ $(LFLAGS)
 	@make signature
 
-# ----------------- MISC #
+out/%.o: _src/%.c 
+	@printf "$(GREEN)Compiling: $(RESET)$(notdir $<)\n"
+	$(CC) $(CFLAGS)  $(INC) -c -o $@ $<
+
+../libs/lib42mlx.a:
+	MLX=1 $(MAKE) -C ../libs
+
 norm:
 	norminette ./_src/{*.c,*.h}
 	norminette ./_**/_**/{*.c,*.h}
 	norminette inc/*.h
 
-# ----------------- CLEANING #
 clean:
-	@rm -rf $(OBJ_DIR)
-	@printf "\n$(LIGHT_RED)-> $(NAME) obj files removed.$(RESET)"
+	$(MAKE) -C ../libs clean
+	rm -rf $(OBJS)
 
-fclean:	clean
-	@make fclean -C _lib42
-	@rm -rf $(NAME)
+fclean: clean
+	$(MAKE) -C ../libs fclean
+	rm -rf $(BIN)
 
 re: fclean all
 
 cleanlib:
-	@make fclean -C _lib42
+	@make fclean -C ../libs
 
 signature:
 			@printf \
-	"$(LIGHT_CYAN)+---------------------+ © tmercier@student.codam.nl +\n\n$(RESET)"
+	"\n$(LIGHT_CYAN)+---------------------+ © tmercier@student.codam.nl +\n\n$(RESET)"
 
-.PHONY: clean fclean re psclean leaks test f
+.PHONY: fclean re test clean apple_valgrind
 
-# --- colors --- #
 
 GREEN			:=	\033[1;32m
 LIGHT_RED		:=	\033[1;31m

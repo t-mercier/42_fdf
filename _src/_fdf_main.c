@@ -21,20 +21,8 @@ static void	clear(t_fdf *fdf)
 {
 	free(fdf->title);
 	mlx_delete_image(fdf->mlx, fdf->img);
-	mlx_delete_image(fdf->mlx, fdf->baseline);
-	mlx_delete_image(fdf->mlx, fdf->warning);
 	mlx_terminate(fdf->mlx);
 	exit(0);
-}
-
-void resizer(int32_t width, int32_t height, void* param) {
-	t_fdf *fdf=param;
-	width = fdf->win.w;
-	height =  fdf->win.h;
-	mlx_resize_image(fdf->img, width, height);
-	calibrate(fdf);
-	project(fdf);
-
 }
 
 static void	render(t_fdf *fdf, int fd)
@@ -43,13 +31,12 @@ static void	render(t_fdf *fdf, int fd)
 	close(fd);
 	calibrate(fdf);
 	fdf->mlx = mlx_init((int32_t)fdf->win.w,
-			(int32_t)fdf->win.h, fdf->title, true);
+			(int32_t)fdf->win.h, fdf->title, false);
 	if (!fdf->mlx)
 		exit(1);
 	fdf->img = mlx_new_image(fdf->mlx, fdf->win.w, fdf->win.h);
 	if (mlx_image_to_window(fdf->mlx, fdf->img, 0, 0) < 0)
 		exit(1);
-	mlx_resize_hook(fdf->mlx, resizer, fdf);
 	init_usage(fdf);
 	project(fdf);
 	mlx_key_hook(fdf->mlx, (void *)k_hook, fdf);
@@ -79,8 +66,7 @@ int32_t	main(int ac, char **av)
 	fdf.title = ft_strncpy(fdf.title, av[1] + n, len);
 	fd = open(av[1], O_RDONLY);
 	if (!fd || fd < 0)
-		exit_message("\n_EMPTY_FILE_ERROR_ >>> "
-			"File missing\n\n", 1);
+		exit_message("\n_EMPTY_FILE_ERROR_ >>> File missing\n\n", 1);
 	render(&fdf, fd);
 	clear(&fdf);
 	return (0);

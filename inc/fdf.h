@@ -13,7 +13,7 @@
 #ifndef FDF_H
 # define FDF_H
 
-# include "../_lib42/inc/lib42.h"
+# include "../../libs/inc/lib42.h"
 # define WHITE 0xFFFFFFFF
 
 /*

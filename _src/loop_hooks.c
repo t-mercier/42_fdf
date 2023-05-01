@@ -14,25 +14,14 @@
 
 static void	_translate(t_fdf *fdf)
 {
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP) ||
-		mlx_is_key_down(fdf->mlx, MLX_KEY_DOWN))
-	{
-		if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP))
-			fdf->offset.y -= 30;
-		else
-			fdf->offset.y += 30;
-		project(fdf);
-	}
-
-	if (mlx_is_key_down(fdf->mlx, MLX_KEY_LEFT) ||
-		mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
-	{
-		if (mlx_is_key_down(fdf->mlx, MLX_KEY_LEFT))
-			fdf->offset.x -= 30;
-		else
-			fdf->offset.x += 30;
-		project(fdf);
-	}
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_UP))
+		return (fdf->offset.y -= 30, project(fdf));
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_DOWN))
+		return (fdf->offset.y += 30, project(fdf));
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_LEFT))
+		return (fdf->offset.x -= 30, project(fdf));
+	if (mlx_is_key_down(fdf->mlx, MLX_KEY_RIGHT))
+		return (fdf->offset.x += 30, project(fdf));
 }
 
 static void	_zoom(t_fdf *fdf)

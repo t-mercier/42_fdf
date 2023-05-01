@@ -46,8 +46,8 @@ void	init_usage(t_fdf *fdf)
 	int		i;
 
 	i = 0;
-	x = 20;
-	y = 20;
+	x = fdf->win.w - 400;
+	y = fdf->win.h * 2 / 100;
 	define_usage(fdf);
 	while (i < 23)
 	{

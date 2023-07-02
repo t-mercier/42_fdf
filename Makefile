@@ -12,13 +12,13 @@
 
 
 
-LIB		=		_libs
-INC		=		-I_libs/inc -Iinc -I_libs/graphic/MLX42/include/MLX42
+LIB			=		_libs
+INC			=		-I_libs/inc -Iinc -I_libs/graphic/MLX42/include/MLX42
 SRCS		=		_fdf_main.c colors_1.c colors_2.c input.c lines.c \
 					key_hooks.c loop_hooks.c rotation.c usage.c utils.c
 OBJS		=		$(addprefix out/, $(SRCS:.c=.o))
-BIN		=		fdf
-CC		=		cc
+BIN			=		fdf
+CC			=		cc
 EXTRAS		=		-lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
 ifdef HOME
 EXTRAS		=		-lglfw -framework Cocoa -framework OpenGL -framework IOKit

@@ -19,9 +19,9 @@ SRCS		=		_fdf_main.c colors_1.c colors_2.c input.c lines.c \
 OBJS		=		$(addprefix out/, $(SRCS:.c=.o))
 BIN			=		fdf
 CC			=		cc
-EXTRAS		=		-lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
+EXTRAS		+=		-lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
 ifdef HOME
-EXTRAS		=		-lglfw -framework Cocoa -framework OpenGL -framework IOKit
+EXTRAS		+=		-lglfw -framework Cocoa -framework OpenGL -framework IOKit
 endif
 LFLAGS		=		-lm -lpthread -Wl
 CFLAGS 		+= 		-Ofast $(INC) -Wall -Wextra

@@ -1,12 +1,19 @@
 ### 42_fdf
-
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/dcKc4HY/fdf-grade.png" alt="fdf-grade" border="0"></a>
-
-#### Overview
 `42_fdf` is a wireframe map generator that renders 3D landscapes from .fdf files. It's a project developed in pure C, utilizing the MinilibX library, focusing on window management and pixel manipulation techniques.
+<table>
+  <tr>
+    <td>
+      <img src="https://github.com/t-mercier/42_fdf/assets/94700601/cbc1eaff-2e65-49f4-8cf0-dcb4eed54ae9" alt="githubFDF">
+    </td>
+    <td>
+      <img src="https://github.com/t-mercier/42_fdf/assets/94700601/32e262dd-2269-4a3e-948e-60388f42380b" alt="fdf_rotation">
+    </td>
+  </tr>
+</table>
+
 
 #### Controls
-- **Usage On/Off**: Space
+- **Display Usage On/Off**: Space
 - **Close Window**: Esc
 - **Move**: Arrow Keys
 - **Zoom**: Mouse Scroll

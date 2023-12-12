@@ -10,16 +10,15 @@
 #                                                                              #
 # **************************************************************************** #
 
+OS			:= 		$(shell uname -s)
 BIN			=		fdf
 LIB			=		_libs
 INC			=		-I_libs/inc -Iinc -I_libs/graphic/MLX42/include/MLX42
-# EXTRAS		+=		-lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
-EXTRAS		+=		-lglfw -framework Cocoa -framework OpenGL -framework IOKit
 SRCS		=		_fdf_main.c colors_1.c colors_2.c input.c lines.c \
 					key_hooks.c loop_hooks.c rotation.c usage.c utils.c
 OBJS		=		$(addprefix out/, $(SRCS:.c=.o))
 CC			=		cc
-LFLAGS		=		-lm -lpthread -Wl
+
 CFLAGS 		+= 		-Ofast $(INC) -Wall -Wextra
 ifdef DEBUG
 CFLAGS		+=		-g3 -fsanitize=address
@@ -28,12 +27,19 @@ ifndef DEV
 CFLAGS		+=		-Werror
 endif
 
+ifeq ($(OS),Linux)
+LFLAGS 		= -lglfw3 -lm 
+else
+LFLAGS		= -lglfw3 -lm -framework Cocoa -framework OpenGL -framework IOKit
+endif
+
+
 $(shell mkdir -p out)
 
 all: $(BIN)
 
 $(BIN): $(OBJS) _libs/lib42mlx.a
-	@$(CC) $(CFLAGS) $(EXTRAS) -o $@ $^ $(LFLAGS)
+	@$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS)
 	@make signature
 
 out/%.o: _src/%.c 

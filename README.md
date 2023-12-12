@@ -1,5 +1,5 @@
 ### 42_fdf
-`42_fdf` is a wireframe map generator that renders 3D landscapes from .fdf files. It's a project developed in pure C, utilizing the MinilibX library, focusing on window management and pixel manipulation techniques.
+`42_fdf` renders wireframe landscapes from .fdf files. It's a project developed in pure C, utilizing the MinilibX library, focusing on window management and pixel manipulation techniques.
 <table>
   <tr>
     <td>
@@ -44,6 +44,3 @@
 #### Technologies
 - Language: C
 - Graphics Library: MinilibX
-
-#### Contribution
-This project was developed by Timothée Mercier as part of the 42 programming curriculum. Contributions, suggestions, and feedback are welcome.
